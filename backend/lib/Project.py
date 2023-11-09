@@ -12,4 +12,10 @@ class Project:
     def __repr__(self):
         return f"Project({self.id}, {self.name}, {self.link}, {self.notes}, {self.created_at})"
     
-    
+    def is_valid(self):
+        if self.name == "" or self.name == None:
+            return False
+        if self.link == "" or self.link == None:
+            return False
+        
+        return True
