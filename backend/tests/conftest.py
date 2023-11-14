@@ -4,6 +4,8 @@ from server import app
 
 @pytest.fixture
 def db_connection():
+    os.environ['APP_ENV'] = 'test'  # Set APP_ENV explicitly
+
     conn = DatabaseConnection(test_mode=True)
     conn.connect()
     return conn
