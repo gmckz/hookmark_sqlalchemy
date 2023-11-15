@@ -14,10 +14,7 @@ def page_test():
 def get_a_project(project_id):
     connection = get_flask_database_connection(app)
     repository = ProjectRepository(connection)
-    print("printing project", vars(repository.find(project_id)))
     return vars(repository.find(project_id))
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-    
