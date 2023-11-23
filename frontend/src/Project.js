@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 function Project() {
 	const { id } = useParams();
-	console.log(id);
 	const URL = `http://127.0.0.1:5000/projects/${id}`;
 	const [project, setProject] = useState({
 		created_at: "",
@@ -14,7 +13,6 @@ function Project() {
 	});
 
 	useEffect(() => {
-		console.log("fetching data");
 		fetch(URL, {
 			mode: "cors",
 		})
@@ -30,7 +28,6 @@ function Project() {
 			);
 	}, []);
 
-	console.log("logging project data:", project);
 	return (
 		<>
 			<h1>{project.name}</h1>
