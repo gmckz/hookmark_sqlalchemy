@@ -1,10 +1,11 @@
 import os
 from flask import Flask
+from flask_cors import CORS
 from lib.database_connection import get_flask_database_connection
 from lib.project_repository import ProjectRepository
 
 app = Flask(__name__)
-
+CORS(app)
 # Landing page API route
 @app.route("/")
 def page_test():
