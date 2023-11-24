@@ -14,5 +14,5 @@ class ProjectRepository:
         projects = []
         for row in rows:
             project = Project(row["id"], row["name"], row["link"], row["notes"], row["created_at"])
-            projects.append(project)
+            projects.append(vars(project))
         return projects

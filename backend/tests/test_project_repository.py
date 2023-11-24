@@ -23,6 +23,24 @@ def test_all_projects(db_connection):
     repository = ProjectRepository(db_connection)
     projects = repository.all()
     assert len(projects) == 3
-    assert projects[0] == Project(1, "cable knit hat", "www.test.com", "test note", datetime(2023, 11, 9, 15, 35))
-    assert projects[1] == Project(2, "jumper", "www.test.com", "test note 2", datetime(2023, 11, 14, 14, 14, 14))
-    assert projects[2] == Project(3, "cardigan", "www.test.com", "test note 3", datetime(2023, 11, 14, 14, 15))
+    assert projects[0] == {
+                "id": 1,
+                "name": 'cable knit hat',
+                "link": 'www.test.com',
+                "notes": 'test note',
+                "created_at": datetime(2023, 11, 9, 15, 35, 0)
+            }
+    assert projects[1] == {
+                "id": 2,
+                "name": 'jumper',
+                "link": 'www.test.com',
+                "notes": 'test note 2',
+                "created_at": datetime(2023, 11, 14, 14, 14, 14)
+            }
+    assert projects[2] == {
+                "id": 3,
+                "name": 'cardigan',
+                "link": 'www.test.com',
+                "notes": 'test note 3',
+                "created_at": datetime(2023, 11, 14, 14, 15, 0)
+            }
