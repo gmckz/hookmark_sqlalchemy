@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./Projects.css";
 
 function Projects() {
 	const URL = "http://127.0.0.1:5000/projects";
