@@ -17,5 +17,12 @@ def get_a_project(project_id):
     repository = ProjectRepository(connection)
     return vars(repository.find(project_id))
 
+@app.route("/projects", methods=['GET'])
+def get_all_projects():
+    connection = get_flask_database_connection(app)
+    repository = ProjectRepository(connection)
+    projects = {"projects": repository.all()}
+    return projects
+
 if __name__ == "__main__":
     app.run(debug=True)
