@@ -14,24 +14,28 @@ function Projects() {
 				setProjects(data.projects);
 			});
 	}, []);
-	console.log("logging projects", projects);
 
 	return (
 		<>
-			<h1>All Projects</h1>
-
-			{projects.map((project) => {
-				return (
-					<div key={project.id} className="project">
-						<h2>{project.name}</h2>
-						<a
-							href={`http://localhost:3000/projects/${project.id}`}
-						>
-							View Project
-						</a>
-					</div>
-				);
-			})}
+			<div className="all-projects-container">
+				<h1>All Projects</h1>
+				<div className="cards-container">
+					{projects.map((project) => {
+						return (
+							<div key={project.id} className="project">
+								<h2>{project.name}</h2>
+								<a
+									href={`http://localhost:3000/projects/${project.id}`}
+								>
+									<button className="project-btn">
+										View Project
+									</button>
+								</a>
+							</div>
+						);
+					})}
+				</div>
+			</div>
 		</>
 	);
 }
