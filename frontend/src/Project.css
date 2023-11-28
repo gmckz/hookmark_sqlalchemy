@@ -1,0 +1,20 @@
+.single-project {
+	display: flex;
+	flex-direction: column;
+	background-color: white;
+	border-radius: 10px;
+	padding: 30px;
+	width: 90%;
+}
+
+.pattern-link {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+@media (min-width: 600px) {
+	.single-project {
+		width: 60%;
+	}
+}
