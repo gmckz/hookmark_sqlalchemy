@@ -44,3 +44,22 @@ def test_all_projects(db_connection):
                 "notes": 'test note 3',
                 "created_at": datetime(2023, 11, 14, 14, 15, 0)
             }
+
+"""
+After calling ProjectRepository.create() with a valid project object 
+a new project is added to the database
+"""
+def test_create_new_project(db_connection):
+    db_connection.seed("seeds/hookmark_database.sql")
+    repository = ProjectRepository(db_connection)
+    project = Project(4, "knitted blanket", "www.test.com/knitted-blanket", "Using dk yarn in pink", datetime(2023, 11, 28, 12, 27, 00))
+    repository.create(project, datetime(2023, 11, 28, 12, 27, 00))
+    projects = repository.all()
+    assert len(projects) == 4
+    assert projects[3] == {
+        "id": 4,
+        "name": "knitted blanket",
+        "link": "www.test.com/knitted-blanket",
+        "notes": "Using dk yarn in pink",
+        "created_at": datetime(2023, 11, 28, 12, 27, 00),
+    }
