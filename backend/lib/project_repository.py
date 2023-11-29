@@ -18,9 +18,8 @@ class ProjectRepository:
             projects.append(vars(project))
         return projects
     
-    def create(self, project, created_at=datetime.now):
-        created_at_formatted = created_at.replace(second=0, microsecond=0)
+    def create(self, project):
         self._connection.execute(
                 'INSERT INTO projects (name, link, notes, created_at) VALUES (%s, %s, %s, %s)',\
-                [project.name, project.link, project.notes, created_at_formatted]
+                [project.name, project.link, project.notes, project.created_at]
             )

@@ -53,7 +53,7 @@ def test_create_new_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
     project = Project(4, "knitted blanket", "www.test.com/knitted-blanket", "Using dk yarn in pink", datetime(2023, 11, 28, 12, 27, 00))
-    repository.create(project, datetime(2023, 11, 28, 12, 27, 00))
+    repository.create(project)
     projects = repository.all()
     assert len(projects) == 4
     assert projects[3] == {
@@ -63,3 +63,13 @@ def test_create_new_project(db_connection):
         "notes": "Using dk yarn in pink",
         "created_at": datetime(2023, 11, 28, 12, 27, 00),
     }
+
+"""
+Calling ProjectRepository.create() with an invalid project object
+returns an error message and the project is not added to the database
+"""
+def test_cannot_create_invalid_project(db_connection):
+    db_connection.seed("seeds/hookmark_database.sql")
+    repository = ProjectRepository(db_connection)
+    project = Project(4, "", None, "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
+    assert repository.create(project) == "Error: project must have a name, project must have a link"
