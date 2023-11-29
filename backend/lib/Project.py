@@ -17,5 +17,6 @@ class Project:
             return False
         if self.link == "" or self.link == None:
             return False
-        
+        if self.created_at == "" or self.created_at == None:
+            return False
         return True

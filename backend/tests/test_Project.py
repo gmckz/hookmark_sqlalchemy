@@ -44,3 +44,6 @@ def test_is_valid_false():
     assert Project(1, '', 'test link', 'test note', timestamp).is_valid() == False
     assert Project(1, None, '', 'test note', timestamp).is_valid() == False
     assert Project(1, 'name', None, 'test note', timestamp).is_valid() == False
+    assert Project(1, 'Invalid project', 'www.test.com', 'test note', None).is_valid() == False
+    assert Project(1, 'Invalid project', 'www.test.com', 'test note', '').is_valid() == False
+
