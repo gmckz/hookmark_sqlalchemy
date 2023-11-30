@@ -19,7 +19,10 @@ class ProjectRepository:
         return projects
     
     def create(self, project):
-        self._connection.execute(
-                'INSERT INTO projects (name, link, notes, created_at) VALUES (%s, %s, %s, %s)',\
-                [project.name, project.link, project.notes, project.created_at]
-            )
+        if project.is_valid():
+            self._connection.execute(
+                    'INSERT INTO projects (name, link, notes, created_at) VALUES (%s, %s, %s, %s)',\
+                    [project.name, project.link, project.notes, project.created_at]
+                )
+        else:
+            return project.generate_error_message()

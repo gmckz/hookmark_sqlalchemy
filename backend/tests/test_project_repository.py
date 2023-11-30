@@ -1,10 +1,12 @@
 from datetime import datetime
 from lib.project_repository import ProjectRepository
 from lib.Project import Project
+from freezegun import freeze_time
 
 """
 Calling ProjectRepository.find returns a project object corresponding to the id
 """
+@freeze_time("2023-11-30")
 def test_find_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
@@ -14,7 +16,7 @@ def test_find_project(db_connection):
     assert project2 == Project(2, "jumper", "www.test.com", "test note 2", datetime(2023, 11, 14, 14, 14, 14))
     project3 = repository.find(3)
     assert project3 == Project(3, "cardigan", "www.test.com", "test note 3", datetime(2023, 11, 14, 14, 15))
-
+    
 """
 Calling ProjectRepository.all returns a list of all project objects
 """
@@ -71,5 +73,9 @@ returns an error message and the project is not added to the database
 def test_cannot_create_invalid_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
-    project = Project(4, "", None, "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
-    assert repository.create(project) == "Error: project must have a name, project must have a link"
+    project1 = Project(4, "", None, "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
+    project2 = Project(4, "", "www.test.com", "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
+    project3 = Project(4, "name", None, "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
+    assert repository.create(project1) == "Error: name and link must have a value"
+    assert repository.create(project2) == "Error: name must have a value"
+    assert repository.create(project3) == "Error: link must have a value"

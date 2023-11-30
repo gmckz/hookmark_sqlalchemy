@@ -30,7 +30,7 @@ def test_return_a_string():
     assert str(project1) == "Project(1, beanie hat, test link, test notes, 2023-11-09 12:00:00)"
 
 """
-is_valid returns true when given users with name, link and created_at properties
+is_valid returns true when given projects with name, link and created_at properties
 """
 def test_is_valid_true():
     assert Project(1, 'beanie hat', 'test link', '', timestamp).is_valid() == True
@@ -38,12 +38,18 @@ def test_is_valid_true():
     assert Project(1, 'beanie hat', 'test link', 'test note', timestamp).is_valid() == True
 
 """
-is_valid returns false when given users without name, link or created_at properties
+is_valid returns false when given projects without name or link properties
 """
 def test_is_valid_false():
     assert Project(1, '', 'test link', 'test note', timestamp).is_valid() == False
     assert Project(1, None, '', 'test note', timestamp).is_valid() == False
     assert Project(1, 'name', None, 'test note', timestamp).is_valid() == False
-    assert Project(1, 'Invalid project', 'www.test.com', 'test note', None).is_valid() == False
-    assert Project(1, 'Invalid project', 'www.test.com', 'test note', '').is_valid() == False
 
+"""
+error_message returns error message when project is invalid
+"""
+def test_generate_error_messages():
+    error_message1 = Project(1, '', 'test link', 'test note', timestamp).generate_error_message()
+    assert error_message1 == "Error: name must have a value"
+    error_message2 = Project(1, 'name', None, 'test note', timestamp).generate_error_message()
+    assert error_message2 == "Error: link must have a value"
