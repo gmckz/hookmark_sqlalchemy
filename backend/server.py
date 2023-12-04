@@ -29,9 +29,11 @@ def get_all_projects():
 def create_project():
     connection = get_flask_database_connection(app)
     repository = ProjectRepository(connection)
-    project = Project(None, request.form['name'], request.form['link'], request.form['notes'])
+    json_body = request.get_json()
+    data = json_body['data']
+    project = Project(None, data['name'], data['link'], data['notes'])
     repository.create(project)
-    return "Project successfully added to database"
+    return repository.all()[-1]
     
 
 
