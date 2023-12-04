@@ -1,21 +1,19 @@
 from datetime import datetime
 from lib.project_repository import ProjectRepository
 from lib.Project import Project
-from freezegun import freeze_time
 
 """
 Calling ProjectRepository.find returns a project object corresponding to the id
 """
-@freeze_time("2023-11-30")
 def test_find_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
     project1 = repository.find(1)
-    assert project1 == Project(1, "cable knit hat", "www.test.com", "test note", datetime(2023, 11, 9, 15, 35))
+    assert project1 == Project(1, "cable knit hat", "www.test.com", "test note")
     project2 = repository.find(2)
-    assert project2 == Project(2, "jumper", "www.test.com", "test note 2", datetime(2023, 11, 14, 14, 14, 14))
+    assert project2 == Project(2, "jumper", "www.test.com", "test note 2")
     project3 = repository.find(3)
-    assert project3 == Project(3, "cardigan", "www.test.com", "test note 3", datetime(2023, 11, 14, 14, 15))
+    assert project3 == Project(3, "cardigan", "www.test.com", "test note 3")
     
 """
 Calling ProjectRepository.all returns a list of all project objects
@@ -29,22 +27,19 @@ def test_all_projects(db_connection):
                 "id": 1,
                 "name": 'cable knit hat',
                 "link": 'www.test.com',
-                "notes": 'test note',
-                "created_at": datetime(2023, 11, 9, 15, 35, 0)
+                "notes": 'test note'
             }
     assert projects[1] == {
                 "id": 2,
                 "name": 'jumper',
                 "link": 'www.test.com',
                 "notes": 'test note 2',
-                "created_at": datetime(2023, 11, 14, 14, 14, 14)
             }
     assert projects[2] == {
                 "id": 3,
                 "name": 'cardigan',
                 "link": 'www.test.com',
                 "notes": 'test note 3',
-                "created_at": datetime(2023, 11, 14, 14, 15, 0)
             }
 
 """
@@ -54,7 +49,7 @@ a new project is added to the database
 def test_create_new_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
-    project = Project(4, "knitted blanket", "www.test.com/knitted-blanket", "Using dk yarn in pink", datetime(2023, 11, 28, 12, 27, 00))
+    project = Project(4, "knitted blanket", "www.test.com/knitted-blanket", "Using dk yarn in pink")
     repository.create(project)
     projects = repository.all()
     assert len(projects) == 4
@@ -63,7 +58,6 @@ def test_create_new_project(db_connection):
         "name": "knitted blanket",
         "link": "www.test.com/knitted-blanket",
         "notes": "Using dk yarn in pink",
-        "created_at": datetime(2023, 11, 28, 12, 27, 00),
     }
 
 """
@@ -73,9 +67,9 @@ returns an error message and the project is not added to the database
 def test_cannot_create_invalid_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
-    project1 = Project(4, "", None, "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
-    project2 = Project(4, "", "www.test.com", "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
-    project3 = Project(4, "name", None, "this project is invalid", datetime(2023, 11, 29, 16, 57, 00))
+    project1 = Project(4, "", None, "this project is invalid")
+    project2 = Project(4, "", "www.test.com", "this project is invalid")
+    project3 = Project(4, "name", None, "this project is invalid")
     assert repository.create(project1) == "Error: name and link must have a value"
     assert repository.create(project2) == "Error: name must have a value"
     assert repository.create(project3) == "Error: link must have a value"
