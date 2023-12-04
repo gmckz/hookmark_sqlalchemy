@@ -9,7 +9,7 @@ CREATE TABLE projects (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO projects (name, link, notes, created_at) VALUES ('cable knit hat', 'www.test.com', 'test note', '2023-11-09 15:35:00');
-INSERT INTO projects (name, link, notes, created_at) VALUES ('jumper', 'www.test.com', 'test note 2', '2023-11-14 14:14:14');
-INSERT INTO projects (name, link, notes, created_at) VALUES ('cardigan', 'www.test.com', 'test note 3', '2023-11-14 14:15:00');
+INSERT INTO projects (name, link, notes) VALUES ('cable knit hat', 'www.test.com', 'test note');
+INSERT INTO projects (name, link, notes) VALUES ('jumper', 'www.test.com', 'test note 2');
+INSERT INTO projects (name, link, notes) VALUES ('cardigan', 'www.test.com', 'test note 3');
 
