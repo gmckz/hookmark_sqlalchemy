@@ -46,7 +46,12 @@ I get a 200 response and success message
 """
 def test_create_a_project(db_connection, web_client):
     db_connection.seed("seeds/hookmark_database.sql")
-    data={'name': 'New project', 'link':'www.test.com', 'notes': 'i\'m creating a new project'}
-    response = web_client.post('/projects', data=data)
+    data={
+        'data': {'name': 'New project', 'link':'www.test.com', 'notes': 'i\'m creating a new project'}
+        }
+    headers = {'Content-Type': 'application/json'}
+    json_data = json.dumps(data)
+    response = web_client.post('/projects', data=json_data, headers=headers)
+    print(response.data.decode('utf-8'))
     assert response.status_code == 200
-    assert response.data.decode('utf-8') == "Project successfully added to database"
+    assert json.loads(response.data.decode('utf-8')) == {"id":4,"link":"www.test.com","name":"New project","notes":"i\'m creating a new project"}
