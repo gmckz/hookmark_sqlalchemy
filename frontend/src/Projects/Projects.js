@@ -19,6 +19,9 @@ function Projects() {
 		<>
 			<div className="all-projects-container">
 				<h1>All Projects</h1>
+				<div className="add-project">
+					<button className="add-project-btn">Add a project</button>
+				</div>
 				<div className="cards-container">
 					{projects.map((project) => {
 						return (
