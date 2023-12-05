@@ -1,11 +1,13 @@
 import "./ProjectForm.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ProjectForm() {
 	const [name, setName] = useState("");
 	const [link, setLink] = useState("");
 	const [notes, setNotes] = useState("");
 	const [isPending, setIsPending] = useState(false);
+	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -18,8 +20,11 @@ function ProjectForm() {
 			body: JSON.stringify(project),
 		})
 			.then((res) => res.json())
-			.then((data) => console.log(data.id))
-			.then(setIsPending(false));
+			.then((data) => {
+				console.log(data.id);
+				setIsPending(false);
+				navigate(`/projects/${data.id}`);
+			});
 	};
 
 	return (
