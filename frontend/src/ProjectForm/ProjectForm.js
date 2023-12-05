@@ -9,12 +9,14 @@ function ProjectForm() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const project = { data: { name, link, notes } };
-		const projectJson = JSON.stringify(project);
+
 		fetch("http://127.0.0.1:5000/projects", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(project),
-		}).then(console.log("project added"));
+		})
+			.then((res) => res.json())
+			.then((data) => console.log(data.id));
 	};
 
 	return (
