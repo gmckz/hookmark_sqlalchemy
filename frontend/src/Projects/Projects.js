@@ -13,7 +13,7 @@ function Projects() {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				setProjects(data.projects);
+				setProjects(data.projects.reverse());
 			});
 	}, []);
 
