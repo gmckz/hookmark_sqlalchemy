@@ -5,10 +5,12 @@ function ProjectForm() {
 	const [name, setName] = useState("");
 	const [link, setLink] = useState("");
 	const [notes, setNotes] = useState("");
+	const [isPending, setIsPending] = useState(false);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const project = { data: { name, link, notes } };
+		setIsPending(true);
 
 		fetch("http://127.0.0.1:5000/projects", {
 			method: "POST",
@@ -16,7 +18,8 @@ function ProjectForm() {
 			body: JSON.stringify(project),
 		})
 			.then((res) => res.json())
-			.then((data) => console.log(data.id));
+			.then((data) => console.log(data.id))
+			.then(setIsPending(false));
 	};
 
 	return (
@@ -43,7 +46,8 @@ function ProjectForm() {
 						value={notes}
 						onChange={(e) => setNotes(e.target.value)}
 					></textarea>
-					<button>Add project</button>
+					{!isPending && <button>Add project</button>}
+					{isPending && <button disabled>Adding project...</button>}
 				</form>
 			</div>
 		</>
