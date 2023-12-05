@@ -1,8 +1,9 @@
 import os
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 from lib.database_connection import get_flask_database_connection
 from lib.project_repository import ProjectRepository
+from lib.Project import Project
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +24,18 @@ def get_all_projects():
     repository = ProjectRepository(connection)
     projects = {"projects": repository.all()}
     return projects
+
+@app.route("/projects", methods=["POST"])
+def create_project():
+    connection = get_flask_database_connection(app)
+    repository = ProjectRepository(connection)
+    json_body = request.get_json()
+    data = json_body['data']
+    project = Project(None, data['name'], data['link'], data['notes'])
+    repository.create(project)
+    return repository.all()[-1]
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True)

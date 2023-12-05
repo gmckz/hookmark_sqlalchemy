@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Projects.css";
 
 function Projects() {
 	const URL = "http://127.0.0.1:5000/projects";
 	const [projects, setProjects] = useState([]);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetch(URL, {
@@ -11,7 +13,7 @@ function Projects() {
 		})
 			.then((res) => res.json())
 			.then((data) => {
-				setProjects(data.projects);
+				setProjects(data.projects.reverse());
 			});
 	}, []);
 
@@ -19,6 +21,14 @@ function Projects() {
 		<>
 			<div className="all-projects-container">
 				<h1>All Projects</h1>
+				<div className="add-project">
+					<button
+						className="add-project-btn"
+						onClick={() => navigate("/project-form")}
+					>
+						Add a project
+					</button>
+				</div>
 				<div className="cards-container">
 					{projects.map((project) => {
 						return (

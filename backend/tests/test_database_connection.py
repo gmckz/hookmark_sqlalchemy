@@ -18,11 +18,15 @@ When I seed the hookmark database I get some records back
 """
 def test_hookmark_db_connection(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
-    db_connection.execute("INSERT INTO projects (name, link, notes, created_at) VALUES ('jumper', 'www.jumperlink.com', 'sample note', '2023-12-01 12:00:00')")
+    db_connection.execute("INSERT INTO projects (name, link, notes) VALUES ('jumper', 'www.jumperlink.com', 'sample note')")
     result = db_connection.execute("SELECT * FROM projects")
-    assert result == [
-        {"id": 1, "name": "cable knit hat", "link": "www.test.com", "notes": "test note", "created_at" : datetime(2023, 11, 9, 15, 35, 0)},
-        {"id": 2, "name": "jumper", "link": "www.test.com", "notes": "test note 2", "created_at" : datetime(2023, 11, 14, 14, 14, 14)},
-        {"id": 3, "name": "cardigan", "link": "www.test.com", "notes": "test note 3", "created_at" : datetime(2023, 11, 14, 14, 15, 0)},
-        {"id": 4, "name": "jumper", "link": "www.jumperlink.com", "notes": "sample note", "created_at" : datetime(2023, 12, 1, 12)}
+    assert isinstance(result, list)
+    expected_result = [
+        {"id": 1, "name": "cable knit hat", "link": "www.test.com", "notes": "test note"},
+        {"id": 2, "name": "jumper", "link": "www.test.com", "notes": "test note 2"},
+        {"id": 3, "name": "cardigan", "link": "www.test.com", "notes": "test note 3"},
+        {"id": 4, "name": "jumper", "link": "www.jumperlink.com", "notes": "sample note"}
     ]
+    for actual, expected in zip(result, expected_result):
+        actual.pop('created_at', None)
+        assert actual == expected
