@@ -3,11 +3,22 @@ function UpdateProject({ project, setEditMode, useState }) {
 	const [link, setLink] = useState(project.name);
 	const [notes, setNotes] = useState(project.name);
 
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const project = { data: { name, link, notes } };
+
+		fetch("http://127.0.0.1:5000/projects", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(project),
+		}).then(setEditMode(false));
+	};
+
 	return (
 		<>
 			<div className="project-form-container">
 				<h1>Add a new project</h1>
-				<form className="project-form" /*onSubmit={handleSubmit}*/>
+				<form className="project-form" onSubmit={handleSubmit}>
 					<label>Project name:</label>
 					<input
 						type="text"
