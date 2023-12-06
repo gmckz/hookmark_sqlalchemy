@@ -42,12 +42,7 @@ function Project() {
 					<h2>Notes</h2>
 					<p>{project.notes}</p>
 				</div>
-				<button
-					className="btn"
-					onClick={() => navigate(`/projects/${id}/edit`)}
-				>
-					Edit
-				</button>
+				<button className="btn">Edit</button>
 			</div>
 		</>
 	);
