@@ -40,7 +40,7 @@ function UpdateProject({ project, setEditMode, useState }) {
 					></textarea>
 					<button>Save</button>
 				</form>
-				<button className="btn" onClick={() => setEditMode(false)}>
+				<button className="cancel" onClick={() => setEditMode(false)}>
 					Cancel
 				</button>
 			</div>
