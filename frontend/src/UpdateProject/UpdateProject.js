@@ -17,7 +17,7 @@ function UpdateProject({ project, setEditMode, useState }) {
 	return (
 		<>
 			<div className="project-form-container">
-				<h1>Add a new project</h1>
+				<h1>Edit project</h1>
 				<form className="project-form" onSubmit={handleSubmit}>
 					<label>Project name:</label>
 					<input
@@ -38,7 +38,7 @@ function UpdateProject({ project, setEditMode, useState }) {
 						value={notes}
 						onChange={(e) => setNotes(e.target.value)}
 					></textarea>
-					<button>Add project</button>
+					<button>Save</button>
 				</form>
 				<button className="btn" onClick={() => setEditMode(false)}>
 					Cancel
