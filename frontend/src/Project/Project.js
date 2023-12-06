@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Project.css";
 
@@ -12,6 +12,7 @@ function Project() {
 		name: "",
 		notes: "",
 	});
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetch(URL, {
@@ -41,7 +42,12 @@ function Project() {
 					<h2>Notes</h2>
 					<p>{project.notes}</p>
 				</div>
-				<button className="btn">Edit</button>
+				<button
+					className="btn"
+					onClick={() => navigate(`/projects/${id}/edit`)}
+				>
+					Edit
+				</button>
 			</div>
 		</>
 	);
