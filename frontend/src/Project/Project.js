@@ -41,6 +41,7 @@ function Project() {
 					<h2>Notes</h2>
 					<p>{project.notes}</p>
 				</div>
+				<button className="btn">Edit</button>
 			</div>
 		</>
 	);
