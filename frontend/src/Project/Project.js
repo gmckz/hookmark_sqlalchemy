@@ -35,7 +35,7 @@ function Project() {
 	if (editMode === false) {
 		return <ViewProject project={project} setEditMode={setEditMode} />;
 	} else {
-		return <UpdateProject />;
+		return <UpdateProject project={project} setEditMode={setEditMode} />;
 	}
 }
 
