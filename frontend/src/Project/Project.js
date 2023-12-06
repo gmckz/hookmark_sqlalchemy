@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Project.css";
+import ViewProject from "../ViewProject/ViewProject";
 
 function Project() {
 	const { id } = useParams();
@@ -30,22 +31,7 @@ function Project() {
 			);
 	}, []);
 
-	return (
-		<>
-			<div className="single-project">
-				<h1>{project.name}</h1>
-				<div className="pattern-link">
-					<h2>Pattern link:</h2>
-					<a href={project.link}>{project.link}</a>
-				</div>
-				<div className="pattern-notes">
-					<h2>Notes</h2>
-					<p>{project.notes}</p>
-				</div>
-				<button className="btn">Edit</button>
-			</div>
-		</>
-	);
+	return <ViewProject project={project} />;
 }
 
 export default Project;
