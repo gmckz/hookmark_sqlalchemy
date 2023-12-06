@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Project.css";
 import ViewProject from "../ViewProject/ViewProject";
@@ -13,7 +13,6 @@ function Project() {
 		name: "",
 		notes: "",
 	});
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetch(URL, {
