@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Project from "../Project/Project";
 import Projects from "../Projects/Projects";
-import ProjectForm from "../ProjectForm/ProjectForm";
+import ProjectForm from "../AddProject/AddProject";
 import UpdateProject from "../UpdateProject/UpdateProject";
 
 function App() {
