@@ -1,4 +1,8 @@
-function UpdateProject({ project, setEditMode }) {
+function UpdateProject({ project, setEditMode, useState }) {
+	const [name, setName] = useState(project.name);
+	const [link, setLink] = useState(project.name);
+	const [notes, setNotes] = useState(project.name);
+
 	return (
 		<>
 			<div className="project-form-container">
@@ -8,20 +12,20 @@ function UpdateProject({ project, setEditMode }) {
 					<input
 						type="text"
 						required
-						// value={name}
-						// onChange={(e) => setName(e.target.value)}
+						value={name}
+						onChange={(e) => setName(e.target.value)}
 					/>
 					<label>Pattern link:</label>
 					<input
 						type="text"
 						required
-						// value={link}
-						// onChange={(e) => setLink(e.target.value)}
+						value={link}
+						onChange={(e) => setLink(e.target.value)}
 					/>
 					<label>Notes:</label>
 					<textarea
-					// value={notes}
-					// onChange={(e) => setNotes(e.target.value)}
+						value={notes}
+						onChange={(e) => setNotes(e.target.value)}
 					></textarea>
 					<button>Add project</button>
 					<button>Cancel</button>
