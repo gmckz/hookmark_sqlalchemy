@@ -33,7 +33,7 @@
 	width: 100%;
 }
 
-.project-btn {
+.btn {
 	background-color: #659b4b;
 	color: white;
 	font-family: "Comfortaa", sans-serif;
@@ -43,9 +43,10 @@
 	padding: 15px 10px;
 	font-size: 12px;
 	white-space: nowrap;
+	width: 100px;
 }
 
-.project-btn:hover {
+.btn:hover {
 	background-color: #3e5e2e;
 }
 
@@ -56,7 +57,7 @@
 	padding: 10px;
 }
 
-.add-project-btn {
+/* .add-project-btn {
 	background-color: #659b4b;
 	color: white;
 	font-family: "Comfortaa", sans-serif;
@@ -69,4 +70,4 @@
 
 .add-project-btn:hover {
 	background-color: #3e5e2e;
-}
+} */
