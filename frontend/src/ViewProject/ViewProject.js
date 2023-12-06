@@ -1,4 +1,4 @@
-function ViewProject({ project }) {
+function ViewProject({ project, setEditMode }) {
 	return (
 		<>
 			<div className="single-project">
@@ -11,7 +11,9 @@ function ViewProject({ project }) {
 					<h2>Notes</h2>
 					<p>{project.notes}</p>
 				</div>
-				<button className="btn">Edit</button>
+				<button className="btn" onClick={() => setEditMode(true)}>
+					Edit
+				</button>
 			</div>
 		</>
 	);

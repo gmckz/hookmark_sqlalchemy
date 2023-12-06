@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Project.css";
 import ViewProject from "../ViewProject/ViewProject";
+import UpdateProject from "../UpdateProject/UpdateProject";
 
 function Project() {
 	const { id } = useParams();
@@ -13,6 +14,7 @@ function Project() {
 		name: "",
 		notes: "",
 	});
+	const [editMode, setEditMode] = useState(false);
 
 	useEffect(() => {
 		fetch(URL, {
@@ -30,7 +32,11 @@ function Project() {
 			);
 	}, []);
 
-	return <ViewProject project={project} />;
+	if (editMode === false) {
+		return <ViewProject project={project} setEditMode={setEditMode} />;
+	} else {
+		return <UpdateProject />;
+	}
 }
 
 export default Project;
