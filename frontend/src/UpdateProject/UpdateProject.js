@@ -28,8 +28,10 @@ function UpdateProject({ project, setEditMode, useState }) {
 						onChange={(e) => setNotes(e.target.value)}
 					></textarea>
 					<button>Add project</button>
-					<button>Cancel</button>
 				</form>
+				<button className="btn" onClick={() => setEditMode(false)}>
+					Cancel
+				</button>
 			</div>
 		</>
 	);
