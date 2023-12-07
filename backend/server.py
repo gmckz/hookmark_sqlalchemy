@@ -35,7 +35,15 @@ def create_project():
     repository.create(project)
     return repository.all()[-1]
     
-
+@app.route("/projects", methods=["PUT"])
+def update_project():
+    connection = get_flask_database_connection(app)
+    repository = ProjectRepository(connection)
+    json_body = request.get_json()
+    data = json_body['data']
+    project = Project(data['id'], data['name'], data['link'], data['notes'])
+    repository.update(project)
+    return vars(repository.find(project.id))
 
 if __name__ == "__main__":
     app.run(debug=True)
