@@ -70,3 +70,13 @@ def test_update_a_project(db_connection, web_client):
     response = web_client.put('/projects', data=json_data, headers=headers)
     assert response.status_code == 200    
     assert json.loads(response.data.decode('utf-8')) == {"id":3,"link":"www.test.com","name":"updated project","notes":"i\'m updating a project"}
+
+"""
+When I make a DELETE request to /projects with a valid project id
+I get a 200 response
+"""
+def test_delete_a_project(db_connection, web_client):
+    db_connection.seed("seeds/hookmark_database.sql")
+    response = web_client.delete('/projects/1')
+    assert response.status_code == 200
+    assert json.loads(response.data.decode('utf-8')) == {"message": "Project deleted successfully"}
