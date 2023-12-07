@@ -15,6 +15,7 @@ function Project() {
 		notes: "",
 	});
 	const [editMode, setEditMode] = useState(false);
+	const [trigger, setTrigger] = useState(false);
 
 	useEffect(() => {
 		fetch(URL, {
@@ -30,7 +31,7 @@ function Project() {
 					notes: data.notes,
 				})
 			);
-	}, []);
+	}, [trigger]);
 
 	if (editMode === false) {
 		return <ViewProject project={project} setEditMode={setEditMode} />;
@@ -41,6 +42,8 @@ function Project() {
 				setEditMode={setEditMode}
 				useState={useState}
 				id={id}
+				setTrigger={setTrigger}
+				trigger={trigger}
 			/>
 		);
 	}

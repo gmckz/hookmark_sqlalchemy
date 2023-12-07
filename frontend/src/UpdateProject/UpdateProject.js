@@ -1,4 +1,11 @@
-function UpdateProject({ project, setEditMode, useState, id }) {
+function UpdateProject({
+	project,
+	setEditMode,
+	useState,
+	id,
+	setTrigger,
+	trigger,
+}) {
 	const [name, setName] = useState(project.name);
 	const [link, setLink] = useState(project.name);
 	const [notes, setNotes] = useState(project.name);
@@ -11,7 +18,10 @@ function UpdateProject({ project, setEditMode, useState, id }) {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(project),
-		}).then(setEditMode(false));
+		}).then(() => {
+			setEditMode(false);
+			setTrigger(!trigger);
+		});
 	};
 
 	return (
