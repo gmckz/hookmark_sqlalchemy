@@ -1,11 +1,11 @@
-function UpdateProject({ project, setEditMode, useState }) {
+function UpdateProject({ project, setEditMode, useState, id }) {
 	const [name, setName] = useState(project.name);
 	const [link, setLink] = useState(project.name);
 	const [notes, setNotes] = useState(project.name);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const project = { data: { name, link, notes } };
+		const project = { data: { id, name, link, notes } };
 
 		fetch("http://127.0.0.1:5000/projects", {
 			method: "PUT",

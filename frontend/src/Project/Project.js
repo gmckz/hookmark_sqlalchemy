@@ -40,6 +40,7 @@ function Project() {
 				project={project}
 				setEditMode={setEditMode}
 				useState={useState}
+				id={id}
 			/>
 		);
 	}
