@@ -26,3 +26,12 @@ class ProjectRepository:
                 )
         else:
             return project.generate_error_message()
+        
+    def update(self, project):
+        if project.is_valid():
+            self._connection.execute(
+                    'UPDATE projects SET name = %s, link = %s, notes = %s WHERE id = %s',
+                    [project.name, project.link, project.notes, project.id]
+            )
+        else:
+            return project.generate_error_message()
