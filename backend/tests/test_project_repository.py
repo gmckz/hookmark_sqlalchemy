@@ -86,3 +86,13 @@ def test_update_project(db_connection):
     project2 = Project(4, "New name", "www.test.com", "new comment")
     repository.update(project2)
     assert repository.find(4) == project2
+
+"""
+Calling ProjectRepository.delete() with a project id
+deletes the project from the database
+"""
+def test_delete_project(db_connection):
+    db_connection.seed("seeds/hookmark_database.sql")
+    repository = ProjectRepository(db_connection)
+    repository.delete(1)
+    assert repository.find(1) == "Project with id 1 does not exist"

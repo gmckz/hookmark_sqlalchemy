@@ -7,8 +7,11 @@ class ProjectRepository:
 
     def find(self, project_id):
         rows = self._connection.execute('SELECT * FROM projects WHERE id=%s', [project_id])
-        row = rows[0]
-        return Project(row["id"], row["name"], row["link"], row["notes"])
+        if len(rows) > 0:
+            row = rows[0]
+            return Project(row["id"], row["name"], row["link"], row["notes"])
+        else:
+            return f"Project with id {project_id} does not exist"
     
     def all(self):
         rows = self._connection.execute('SELECT * FROM projects')
@@ -35,3 +38,14 @@ class ProjectRepository:
             )
         else:
             return project.generate_error_message()
+        
+    def delete(self, project_id):
+        err = f"Project with id {project_id} does not exist"
+        project = self.find(project_id)
+        if isinstance(project, Project):
+            self._connection.execute(
+                'DELETE FROM projects WHERE id = %s', [project_id]
+            )
+            return f"Project with id {project_id} deleted"
+        else:
+            return err
