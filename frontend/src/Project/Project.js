@@ -33,6 +33,11 @@ function Project() {
 			);
 	}, [trigger]);
 
+	const onProjectUpdate = () => {
+		setEditMode(false);
+		setTrigger(!trigger);
+	};
+
 	if (editMode === false) {
 		return <ViewProject project={project} setEditMode={setEditMode} />;
 	} else {
@@ -42,8 +47,7 @@ function Project() {
 				setEditMode={setEditMode}
 				useState={useState}
 				id={id}
-				setTrigger={setTrigger}
-				trigger={trigger}
+				projectUpdate={onProjectUpdate}
 			/>
 		);
 	}
