@@ -22,11 +22,8 @@ function Projects() {
 			<div className="all-projects-container">
 				<h1>All Projects</h1>
 				<div className="add-project">
-					<button
-						className="add-project-btn"
-						onClick={() => navigate("/project-form")}
-					>
-						Add a project
+					<button onClick={() => navigate("/project-form")}>
+						Add Project
 					</button>
 				</div>
 				<div className="cards-container">
@@ -37,9 +34,7 @@ function Projects() {
 								<a
 									href={`http://localhost:3000/projects/${project.id}`}
 								>
-									<button className="project-btn">
-										View Project
-									</button>
+									<button>View Project</button>
 								</a>
 							</div>
 						);

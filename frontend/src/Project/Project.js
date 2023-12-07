@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Project.css";
+import ViewProject from "../ViewProject/ViewProject";
+import UpdateProject from "../UpdateProject/UpdateProject";
 
 function Project() {
 	const { id } = useParams();
@@ -12,6 +14,8 @@ function Project() {
 		name: "",
 		notes: "",
 	});
+	const [editMode, setEditMode] = useState(false);
+	const [trigger, setTrigger] = useState(false);
 
 	useEffect(() => {
 		fetch(URL, {
@@ -27,23 +31,26 @@ function Project() {
 					notes: data.notes,
 				})
 			);
-	}, []);
+	}, [trigger]);
 
-	return (
-		<>
-			<div className="single-project">
-				<h1>{project.name}</h1>
-				<div className="pattern-link">
-					<h2>Pattern link:</h2>
-					<a href={project.link}>{project.link}</a>
-				</div>
-				<div className="pattern-notes">
-					<h2>Notes</h2>
-					<p>{project.notes}</p>
-				</div>
-			</div>
-		</>
-	);
+	const onProjectUpdate = () => {
+		setEditMode(false);
+		setTrigger(!trigger);
+	};
+
+	if (editMode === false) {
+		return <ViewProject project={project} setEditMode={setEditMode} />;
+	} else {
+		return (
+			<UpdateProject
+				project={project}
+				setEditMode={setEditMode}
+				useState={useState}
+				id={id}
+				projectUpdate={onProjectUpdate}
+			/>
+		);
+	}
 }
 
 export default Project;

@@ -1,8 +1,8 @@
-import "./ProjectForm.css";
+import "./AddProject.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ProjectForm() {
+function AddProject() {
 	const [name, setName] = useState("");
 	const [link, setLink] = useState("");
 	const [notes, setNotes] = useState("");
@@ -59,4 +59,4 @@ function ProjectForm() {
 	);
 }
 
-export default ProjectForm;
+export default AddProject;
