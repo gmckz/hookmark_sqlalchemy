@@ -94,5 +94,15 @@ deletes the project from the database
 def test_delete_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
-    repository.delete(1)
+    response = repository.delete(1)
+    assert response == "Project with id 1 deleted"
     assert repository.find(1) == "Project with id 1 does not exist"
+
+"""
+Calling ProjectRepository.delete() with invalid project id
+returns error message
+"""
+def test_delete_project_error(db_connection):
+    db_connection.seed("seeds/hookmark_database.sql")
+    repository = ProjectRepository(db_connection)
+    assert repository.delete(5) == "Project with id 5 does not exist"
