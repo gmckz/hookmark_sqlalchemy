@@ -1,4 +1,18 @@
-function ViewProject({ project, setEditMode }) {
+import { useNavigate } from "react-router-dom";
+import "./ViewProject.css";
+
+function ViewProject({ project, setEditMode, URL }) {
+	const navigate = useNavigate();
+	const handleDelete = () => {
+		const confirmDelete = window.confirm(
+			"Are you sure you want to delete this project?"
+		);
+		if (confirmDelete) {
+			fetch(URL, {
+				method: "DELETE",
+			}).then(() => navigate("/projects"));
+		}
+	};
 	return (
 		<>
 			<div className="single-project">
@@ -11,7 +25,12 @@ function ViewProject({ project, setEditMode }) {
 					<h2>Notes</h2>
 					<p>{project.notes}</p>
 				</div>
-				<button onClick={() => setEditMode(true)}>Edit</button>
+				<div className="view-project-btns">
+					<button onClick={() => setEditMode(true)}>Edit</button>
+					<button className="destructive" onClick={handleDelete}>
+						Delete
+					</button>
+				</div>
 			</div>
 		</>
 	);

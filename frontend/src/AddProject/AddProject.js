@@ -51,8 +51,12 @@ function AddProject() {
 						value={notes}
 						onChange={(e) => setNotes(e.target.value)}
 					></textarea>
-					{!isPending && <button>Add project</button>}
-					{isPending && <button disabled>Adding project...</button>}
+					<div className="add-project-btn-container">
+						{!isPending && <button>Add project</button>}
+						{isPending && (
+							<button disabled>Adding project...</button>
+						)}
+					</div>
 				</form>
 			</div>
 		</>

@@ -1,3 +1,5 @@
+import "./UpdateProject.css";
+
 function UpdateProject({ project, setEditMode, useState, id, projectUpdate }) {
 	const [name, setName] = useState(project.name);
 	const [link, setLink] = useState(project.name);
@@ -40,11 +42,18 @@ function UpdateProject({ project, setEditMode, useState, id, projectUpdate }) {
 						value={notes}
 						onChange={(e) => setNotes(e.target.value)}
 					></textarea>
-					<button>Save</button>
+					<div className="project-btn-container">
+						<button>Save</button>
+					</div>
 				</form>
-				<button className="cancel" onClick={() => setEditMode(false)}>
-					Cancel
-				</button>
+				<div className="project-btn-container">
+					<button
+						className="cancel"
+						onClick={() => setEditMode(false)}
+					>
+						Cancel
+					</button>
+				</div>
 			</div>
 		</>
 	);

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from lib.database_connection import get_flask_database_connection
 from lib.project_repository import ProjectRepository
@@ -44,6 +44,13 @@ def update_project():
     project = Project(data['id'], data['name'], data['link'], data['notes'])
     repository.update(project)
     return vars(repository.find(project.id))
+
+@app.route("/projects/<int:project_id>", methods=["DELETE"])
+def delete_project(project_id):
+    connection = get_flask_database_connection(app)
+    repository = ProjectRepository(connection)
+    repository.delete(project_id)
+    return jsonify({"message": "Project deleted successfully"})
 
 if __name__ == "__main__":
     app.run(debug=True)
