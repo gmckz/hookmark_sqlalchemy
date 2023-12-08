@@ -3,9 +3,14 @@ import { useNavigate } from "react-router-dom";
 function ViewProject({ project, setEditMode, URL }) {
 	const navigate = useNavigate();
 	const handleDelete = () => {
-		fetch(URL, {
-			method: "DELETE",
-		}).then(() => navigate("/projects"));
+		const confirmDelete = window.confirm(
+			"Are you sure you want to delete this project?"
+		);
+		if (confirmDelete) {
+			fetch(URL, {
+				method: "DELETE",
+			}).then(() => navigate("/projects"));
+		}
 	};
 	return (
 		<>
