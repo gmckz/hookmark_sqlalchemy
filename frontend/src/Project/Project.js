@@ -39,7 +39,13 @@ function Project() {
 	};
 
 	if (editMode === false) {
-		return <ViewProject project={project} setEditMode={setEditMode} />;
+		return (
+			<ViewProject
+				project={project}
+				setEditMode={setEditMode}
+				URL={URL}
+			/>
+		);
 	} else {
 		return (
 			<UpdateProject

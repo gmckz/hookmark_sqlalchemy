@@ -1,4 +1,12 @@
-function ViewProject({ project, setEditMode }) {
+import { useNavigate } from "react-router-dom";
+
+function ViewProject({ project, setEditMode, URL }) {
+	const navigate = useNavigate();
+	const handleDelete = () => {
+		fetch(URL, {
+			method: "DELETE",
+		}).then(() => navigate("/projects"));
+	};
 	return (
 		<>
 			<div className="single-project">
@@ -13,7 +21,9 @@ function ViewProject({ project, setEditMode }) {
 				</div>
 				<div className="btn-container">
 					<button onClick={() => setEditMode(true)}>Edit</button>
-					<button className="destructive">Delete</button>
+					<button className="destructive" onClick={handleDelete}>
+						Delete
+					</button>
 				</div>
 			</div>
 		</>
