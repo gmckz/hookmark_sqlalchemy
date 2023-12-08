@@ -50,3 +50,12 @@ button.destructive {
 button.destructive:hover {
 	background-color: #8d1414;
 }
+
+.app {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-top: 80px;
+}
