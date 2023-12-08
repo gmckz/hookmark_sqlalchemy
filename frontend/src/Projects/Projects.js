@@ -22,7 +22,7 @@ function Projects() {
 			<div className="all-projects-container">
 				<h1>All Projects</h1>
 				<div className="add-project">
-					<button onClick={() => navigate("/project-form")}>
+					<button onClick={() => navigate("/add-project")}>
 						Add Project
 					</button>
 				</div>
