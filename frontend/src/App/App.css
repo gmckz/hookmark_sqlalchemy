@@ -17,6 +17,7 @@ p {
 }
 
 button {
+	display: inline-block;
 	background-color: #659b4b;
 	color: white;
 	font-family: "Comfortaa", sans-serif;
@@ -26,7 +27,6 @@ button {
 	padding: 15px;
 	font-size: 12px;
 	white-space: nowrap;
-	margin: auto;
 	min-width: 80px;
 }
 
@@ -49,9 +49,4 @@ button.destructive {
 
 button.destructive:hover {
 	background-color: #8d1414;
-}
-
-.btn-container {
-	display: flex;
-	justify-content: center;
 }

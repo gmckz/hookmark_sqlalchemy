@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "./ViewProject.css";
 
 function ViewProject({ project, setEditMode, URL }) {
 	const navigate = useNavigate();
@@ -24,7 +25,7 @@ function ViewProject({ project, setEditMode, URL }) {
 					<h2>Notes</h2>
 					<p>{project.notes}</p>
 				</div>
-				<div className="btn-container">
+				<div className="view-project-btns">
 					<button onClick={() => setEditMode(true)}>Edit</button>
 					<button className="destructive" onClick={handleDelete}>
 						Delete
