@@ -42,3 +42,16 @@ button.cancel {
 button.cancel:hover {
 	background-color: #585b57;
 }
+
+button.destructive {
+	background-color: #a95b5b;
+}
+
+button.destructive:hover {
+	background-color: #8d1414;
+}
+
+.btn-container {
+	display: flex;
+	justify-content: center;
+}

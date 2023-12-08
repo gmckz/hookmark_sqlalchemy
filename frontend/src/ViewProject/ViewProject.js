@@ -11,7 +11,10 @@ function ViewProject({ project, setEditMode }) {
 					<h2>Notes</h2>
 					<p>{project.notes}</p>
 				</div>
-				<button onClick={() => setEditMode(true)}>Edit</button>
+				<div className="btn-container">
+					<button onClick={() => setEditMode(true)}>Edit</button>
+					<button className="destructive">Delete</button>
+				</div>
 			</div>
 		</>
 	);
