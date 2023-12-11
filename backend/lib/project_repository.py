@@ -50,7 +50,8 @@ class ProjectRepository:
                         [project.name, project.link, project.notes, project.id]
                 )
             else:
-                return project.generate_error_message()
+                error_message = project.generate_error_message()
+                raise InvalidProjectException(error_message)
         except DatabaseQueryException as e:
             raise DatabaseQueryException('Error executing database query in update method') from e
         
