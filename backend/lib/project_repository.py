@@ -56,12 +56,15 @@ class ProjectRepository:
             raise DatabaseQueryException('Error executing database query in update method') from e
         
     def delete(self, project_id):
-        err = f"Project with id {project_id} does not exist"
-        project = self.find(project_id)
-        if isinstance(project, Project):
-            self._connection.execute(
-                'DELETE FROM projects WHERE id = %s', [project_id]
-            )
-            return f"Project with id {project_id} deleted"
-        else:
-            return err
+        try:
+            err = f"Project with id {project_id} does not exist"
+            project = self.find(project_id)
+            if isinstance(project, Project):
+                self._connection.execute(
+                    'DELETE FROM projects WHERE id = %s', [project_id]
+                )
+                return f"Project with id {project_id} deleted"
+            else:
+                return err
+        except DatabaseQueryException as e:
+            raise DatabaseQueryException('Error executing database query in delete method')
