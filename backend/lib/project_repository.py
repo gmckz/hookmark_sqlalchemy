@@ -1,6 +1,6 @@
 from lib.Project import Project
 from datetime import datetime
-from lib.exceptions import ProjectNotFoundException
+from lib.exceptions import ProjectNotFoundException, DatabaseQueryException
 
 class ProjectRepository:
     def __init__(self, connection):
@@ -14,16 +14,19 @@ class ProjectRepository:
                 return Project(row["id"], row["name"], row["link"], row["notes"])
             else:
                 raise ProjectNotFoundException(f'Project with id: {project_id} does not exist.')
-        except ProjectNotFoundException as e:
-            raise e
+        except DatabaseQueryException as e:
+            raise DatabaseQueryException('Error executing database query in find method')
     
     def all(self):
-        rows = self._connection.execute('SELECT * FROM projects')
-        projects = []
-        for row in rows:
-            project = Project(row["id"], row["name"], row["link"], row["notes"])
-            projects.append(vars(project))
-        return projects
+        try:
+            rows = self._connection.execute('SELECT * FROM projects')
+            projects = []
+            for row in rows:
+                project = Project(row["id"], row["name"], row["link"], row["notes"])
+                projects.append(vars(project))
+            return projects
+        except DatabaseQueryException as e:
+            raise DatabaseQueryException('Error executing database query in all method') from e
     
     def create(self, project):
         if project.is_valid():
