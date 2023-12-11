@@ -156,4 +156,7 @@ returns error message
 def test_delete_project_error(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
-    assert repository.delete(5) == "Project with id 5 does not exist"
+    with pytest.raises(ProjectNotFoundException) as e:
+        repository.find(5)
+    error_message = str(e.value)
+    assert error_message == "Project with id: 5 does not exist."
