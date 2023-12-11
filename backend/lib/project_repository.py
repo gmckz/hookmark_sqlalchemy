@@ -43,13 +43,16 @@ class ProjectRepository:
 
         
     def update(self, project):
-        if project.is_valid():
-            self._connection.execute(
-                    'UPDATE projects SET name = %s, link = %s, notes = %s WHERE id = %s',
-                    [project.name, project.link, project.notes, project.id]
-            )
-        else:
-            return project.generate_error_message()
+        try:
+            if project.is_valid():
+                self._connection.execute(
+                        'UPDATE projects SET name = %s, link = %s, notes = %s WHERE id = %s',
+                        [project.name, project.link, project.notes, project.id]
+                )
+            else:
+                return project.generate_error_message()
+        except DatabaseQueryException as e:
+            raise DatabaseQueryException('Error executing database query in update method') from e
         
     def delete(self, project_id):
         err = f"Project with id {project_id} does not exist"
