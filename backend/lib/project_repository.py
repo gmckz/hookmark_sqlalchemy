@@ -29,13 +29,17 @@ class ProjectRepository:
             raise DatabaseQueryException('Error executing database query in all method') from e
     
     def create(self, project):
-        if project.is_valid():
-            self._connection.execute(
-                    'INSERT INTO projects (name, link, notes) VALUES (%s, %s, %s)',\
-                    [project.name, project.link, project.notes]
-                )
-        else:
-            return project.generate_error_message()
+        try:
+            if project.is_valid():
+                self._connection.execute(
+                        'INSERT INTO projects (name, link, notes) VALUES (%s, %s, %s)',\
+                        [project.name, project.link, project.notes]
+                    )
+            else:
+                return project.generate_error_message()
+        except DatabaseQueryException as e:
+            raise DatabaseQueryException('Error executing database query in create method') from e
+
         
     def update(self, project):
         if project.is_valid():
