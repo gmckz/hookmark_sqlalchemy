@@ -4,6 +4,7 @@ from flask_cors import CORS
 from lib.database_connection import get_flask_database_connection
 from lib.project_repository import ProjectRepository
 from lib.Project import Project
+from lib.exceptions import ProjectNotFoundException
 
 app = Flask(__name__)
 CORS(app)
@@ -14,9 +15,18 @@ def page_test():
 
 @app.route("/projects/<int:project_id>", methods=['GET'])
 def get_a_project(project_id):
-    connection = get_flask_database_connection(app)
-    repository = ProjectRepository(connection)
-    return vars(repository.find(project_id))
+    try:
+        connection = get_flask_database_connection(app)
+        repository = ProjectRepository(connection)
+        project = repository.find(project_id)
+        if project:
+            return vars(repository.find(project_id)), 200
+        else:
+            raise ProjectNotFoundException(f"Project with id: {project_id} does not exist.")
+    except ProjectNotFoundException as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/projects", methods=['GET'])
 def get_all_projects():

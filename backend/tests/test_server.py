@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 """
-When I make a GET request to /projects/:id
+When I make a GET request to /projects/:id with a valid id
 I get a 200 response and the name, link and notes are returned for that project as a dict
 """
 def test_get_a_project(db_connection, web_client):
@@ -10,6 +10,15 @@ def test_get_a_project(db_connection, web_client):
     assert response.status_code == 200
     assert json.loads(response.data.decode('utf-8')) == {"id": 1, "name": "cable knit hat", "link": "www.test.com", "notes": "test note"}
 
+"""
+When I make a GET request to /projects/:id with an invalid
+I get a 404 reponse and error message
+"""
+def test_get_a_project_invalid_id(db_connection, web_client):
+    db_connection.seed('seeds/hookmark_database.sql')
+    response = web_client.get('/projects/7')
+    assert response.status_code == 404
+    assert json.loads(response.data.decode('utf-8')) == {"error": "Project with id: 7 does not exist."}
 """
 When I make a GET request to /projects
 I get a 200 response and a list of projects is returned
