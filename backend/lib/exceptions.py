@@ -3,3 +3,6 @@ class ProjectNotFoundException(Exception):
 
 class DatabaseQueryException(Exception):
     pass
+
+class InvalidProjectException(Exception):
+    pass
