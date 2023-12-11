@@ -142,10 +142,12 @@ deletes the project from the database
 def test_delete_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
-    print(repository.all())
     response = repository.delete(1)
     assert response == "Project with id 1 deleted"
-    assert repository.find(1) == "Project with id 1 does not exist"
+    with pytest.raises(ProjectNotFoundException) as e:
+        repository.find(1)
+    error_message = str(e.value)
+    assert error_message == "Project with id: 1 does not exist."
 
 """
 Calling ProjectRepository.delete() with invalid project id
