@@ -1,5 +1,4 @@
 from lib.Project import Project
-from datetime import datetime
 from lib.exceptions import ProjectNotFoundException, DatabaseQueryException, InvalidProjectException
 
 class ProjectRepository:
@@ -15,7 +14,7 @@ class ProjectRepository:
             else:
                 raise ProjectNotFoundException(f'Project with id: {project_id} does not exist.')
         except DatabaseQueryException as e:
-            raise DatabaseQueryException('Error executing database query in find method')
+            raise DatabaseQueryException('Error executing database query in find method') from e
     
     def all(self):
         try:
@@ -64,4 +63,4 @@ class ProjectRepository:
                 )
                 return f"Project with id {project_id} deleted"
         except DatabaseQueryException as e:
-            raise DatabaseQueryException('Error executing database query in delete method')
+            raise DatabaseQueryException('Error executing database query in delete method') from e

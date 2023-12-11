@@ -1,4 +1,3 @@
-from datetime import datetime
 from lib.project_repository import ProjectRepository
 from lib.Project import Project
 import pytest
