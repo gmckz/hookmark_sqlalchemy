@@ -1,6 +1,6 @@
 from lib.Project import Project
 from datetime import datetime
-from lib.exceptions import ProjectNotFoundException, DatabaseQueryException
+from lib.exceptions import ProjectNotFoundException, DatabaseQueryException, InvalidProjectException
 
 class ProjectRepository:
     def __init__(self, connection):
@@ -36,7 +36,8 @@ class ProjectRepository:
                         [project.name, project.link, project.notes]
                     )
             else:
-                return project.generate_error_message()
+                error_message = project.generate_error_message()
+                raise InvalidProjectException(error_message)
         except DatabaseQueryException as e:
             raise DatabaseQueryException('Error executing database query in create method') from e
 

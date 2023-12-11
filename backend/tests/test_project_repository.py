@@ -2,7 +2,7 @@ from datetime import datetime
 from lib.project_repository import ProjectRepository
 from lib.Project import Project
 import pytest
-from lib.exceptions import ProjectNotFoundException
+from lib.exceptions import ProjectNotFoundException, InvalidProjectException
 """
 Calling ProjectRepository.find returns a project object corresponding to the id
 """
@@ -80,11 +80,22 @@ def test_cannot_create_invalid_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
     project1 = Project(4, "", None, "this project is invalid")
+    with pytest.raises(InvalidProjectException) as e:
+        repository.create(project1)
+    error_message1 = str(e.value)
+    assert error_message1 == "Error: name and link must have a value"
+
     project2 = Project(4, "", "www.test.com", "this project is invalid")
+    with pytest.raises(InvalidProjectException) as e:
+        repository.create(project2)
+    error_message2 = str(e.value)
+    assert error_message2 == "Error: name must have a value"
+    
     project3 = Project(4, "name", None, "this project is invalid")
-    assert repository.create(project1) == "Error: name and link must have a value"
-    assert repository.create(project2) == "Error: name must have a value"
-    assert repository.create(project3) == "Error: link must have a value"
+    with pytest.raises(InvalidProjectException) as e:
+        repository.create(project3)
+    error_message3 = str(e.value)
+    assert error_message3 == "Error: link must have a value"
 
 """
 Calling ProjectRepository.update() with a valid project object
