@@ -1,17 +1,21 @@
 from lib.Project import Project
 from datetime import datetime
+from lib.exceptions import ProjectNotFoundException
 
 class ProjectRepository:
     def __init__(self, connection):
         self._connection = connection
 
     def find(self, project_id):
-        rows = self._connection.execute('SELECT * FROM projects WHERE id=%s', [project_id])
-        if len(rows) > 0:
-            row = rows[0]
-            return Project(row["id"], row["name"], row["link"], row["notes"])
-        else:
-            return f"Project with id {project_id} does not exist"
+        try:
+            rows = self._connection.execute('SELECT * FROM projects WHERE id=%s', [project_id])
+            if len(rows) > 0:
+                row = rows[0]
+                return Project(row["id"], row["name"], row["link"], row["notes"])
+            else:
+                raise ProjectNotFoundException(f'Project with id: {project_id} does not exist.')
+        except ProjectNotFoundException as e:
+            raise e
     
     def all(self):
         rows = self._connection.execute('SELECT * FROM projects')

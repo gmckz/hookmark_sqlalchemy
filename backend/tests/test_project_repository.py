@@ -1,7 +1,8 @@
 from datetime import datetime
 from lib.project_repository import ProjectRepository
 from lib.Project import Project
-
+import pytest
+from lib.exceptions import ProjectNotFoundException
 """
 Calling ProjectRepository.find returns a project object corresponding to the id
 """
@@ -14,6 +15,17 @@ def test_find_project(db_connection):
     assert project2 == Project(2, "jumper", "www.test.com", "test note 2")
     project3 = repository.find(3)
     assert project3 == Project(3, "cardigan", "www.test.com", "test note 3")
+
+"""
+Calling ProjectRepository.find with a non-existent id raises an exception
+"""
+def test_find_project_invalid_id(db_connection):
+    db_connection.seed("seeds/hookmark_database.sql")
+    repository = ProjectRepository(db_connection)
+    with pytest.raises(ProjectNotFoundException) as e:
+        repository.find(7)
+    error_message = str(e.value)
+    assert error_message == "Project with id: 7 does not exist."
     
 """
 Calling ProjectRepository.all returns a list of all project objects
