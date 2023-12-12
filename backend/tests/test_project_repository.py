@@ -55,13 +55,13 @@ def test_all_projects(db_connection):
 
 """
 After calling ProjectRepository.create() with a valid project object 
-a new project is added to the database
+a new project is added to the database and it returns success message
 """
 def test_create_new_project(db_connection):
     db_connection.seed("seeds/hookmark_database.sql")
     repository = ProjectRepository(db_connection)
     project = Project(4, "knitted blanket", "www.test.com/knitted-blanket", "Using dk yarn in pink")
-    repository.create(project)
+    message = repository.create(project)
     projects = repository.all()
     assert len(projects) == 4
     assert projects[3] == {
@@ -70,7 +70,7 @@ def test_create_new_project(db_connection):
         "link": "www.test.com/knitted-blanket",
         "notes": "Using dk yarn in pink",
     }
-
+    assert message == "Project created successfully."
 """
 Calling ProjectRepository.create() with an invalid project object
 returns an error message and the project is not added to the database
