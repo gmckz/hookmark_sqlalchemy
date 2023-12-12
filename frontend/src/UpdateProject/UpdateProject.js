@@ -2,8 +2,8 @@ import "./UpdateProject.css";
 
 function UpdateProject({ project, setEditMode, useState, id, projectUpdate }) {
 	const [name, setName] = useState(project.name);
-	const [link, setLink] = useState(project.name);
-	const [notes, setNotes] = useState(project.name);
+	const [link, setLink] = useState(project.link);
+	const [notes, setNotes] = useState(project.notes);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
