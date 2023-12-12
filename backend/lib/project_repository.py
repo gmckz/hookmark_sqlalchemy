@@ -49,6 +49,7 @@ class ProjectRepository:
                         'UPDATE projects SET name = %s, link = %s, notes = %s WHERE id = %s',
                         [project.name, project.link, project.notes, project.id]
                 )
+                return "Project updated successfully."
             else:
                 error_message = project.generate_error_message()
                 raise InvalidProjectException(error_message)

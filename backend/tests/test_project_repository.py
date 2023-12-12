@@ -106,7 +106,8 @@ def test_update_project(db_connection):
     project1 = Project(4, "Initial name", "www.test.com", "initial comment")
     repository.create(project1)
     project2 = Project(4, "New name", "www.test.com", "new comment")
-    repository.update(project2)
+    response = repository.update(project2)
+    assert response == "Project updated successfully."
     assert repository.find(4) == project2
 
 """
