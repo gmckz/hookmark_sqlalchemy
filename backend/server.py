@@ -75,10 +75,13 @@ def update_project():
 
 @app.route("/projects/<int:project_id>", methods=["DELETE"])
 def delete_project(project_id):
-    connection = get_flask_database_connection(app)
-    repository = ProjectRepository(connection)
-    repository.delete(project_id)
-    return jsonify({"message": "Project deleted successfully"})
+    try:
+        connection = get_flask_database_connection(app)
+        repository = ProjectRepository(connection)
+        repository.delete(project_id)
+        return jsonify({"message": "Project deleted successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
