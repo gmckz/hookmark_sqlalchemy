@@ -64,8 +64,12 @@ def update_project():
         json_body = request.get_json()
         data = json_body['data']
         project = Project(data['id'], data['name'], data['link'], data['notes'])
-        repository.update(project)
-        return vars(repository.find(project.id)), 200
+        if repository.update(project) == "Project updated successfully.":
+            return vars(repository.find(project.id)), 200
+        else:
+            raise InvalidProjectException()
+    except InvalidProjectException as invalid_project_exception:
+        return jsonify({"error": str(invalid_project_exception)}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
