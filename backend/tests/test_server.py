@@ -119,3 +119,13 @@ def test_delete_a_project(db_connection, web_client):
     response = web_client.delete('/projects/1')
     assert response.status_code == 200
     assert json.loads(response.data.decode('utf-8')) == {"message": "Project deleted successfully"}
+
+"""
+When I make a DELETE request to /projects with an invalid project id
+I get a 404 response and error message
+"""
+def test_delete_a_project_invalid(db_connection, web_client):
+    db_connection.seed("seeds/hookmark_database.sql")
+    response = web_client.delete('/projects/7')
+    assert response.status_code == 404
+    assert json.loads(response.data.decode('utf-8')) == {"error": "Project with id: 7 does not exist."}

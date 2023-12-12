@@ -78,8 +78,12 @@ def delete_project(project_id):
     try:
         connection = get_flask_database_connection(app)
         repository = ProjectRepository(connection)
-        repository.delete(project_id)
-        return jsonify({"message": "Project deleted successfully"})
+        if repository.delete(project_id) == f"Project with id {project_id} deleted":
+            return jsonify({"message": "Project deleted successfully"}), 200
+        else:
+            raise ProjectNotFoundException()
+    except ProjectNotFoundException as project_not_found_exception:
+        return jsonify({"error": str(project_not_found_exception)}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
