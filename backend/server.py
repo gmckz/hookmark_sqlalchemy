@@ -58,13 +58,16 @@ def create_project():
     
 @app.route("/projects", methods=["PUT"])
 def update_project():
-    connection = get_flask_database_connection(app)
-    repository = ProjectRepository(connection)
-    json_body = request.get_json()
-    data = json_body['data']
-    project = Project(data['id'], data['name'], data['link'], data['notes'])
-    repository.update(project)
-    return vars(repository.find(project.id))
+    try:
+        connection = get_flask_database_connection(app)
+        repository = ProjectRepository(connection)
+        json_body = request.get_json()
+        data = json_body['data']
+        project = Project(data['id'], data['name'], data['link'], data['notes'])
+        repository.update(project)
+        return vars(repository.find(project.id)), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/projects/<int:project_id>", methods=["DELETE"])
 def delete_project(project_id):
