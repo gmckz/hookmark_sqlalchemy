@@ -61,9 +61,24 @@ def test_create_a_project(db_connection, web_client):
     headers = {'Content-Type': 'application/json'}
     json_data = json.dumps(data)
     response = web_client.post('/projects', data=json_data, headers=headers)
-    print(response.data.decode('utf-8'))
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert json.loads(response.data.decode('utf-8')) == {"id":4,"link":"www.test.com","name":"New project","notes":"i\'m creating a new project"}
+
+"""
+When I make a POST request to /projects with an invalid project
+I get a 400 response and error message
+"""
+def test_create_a_project_invalid(db_connection, web_client):
+    db_connection.seed("seeds/hookmark_database.sql")
+    data={
+        'data': {'name': '', 'link':'', 'notes': 'i\'m creating an invalid project'}
+        }
+    headers = {'Content-Type': 'application/json'}
+    json_data = json.dumps(data)
+    response = web_client.post('/projects', data=json_data, headers=headers)
+    assert response.status_code == 400
+    assert json.loads(response.data.decode('utf-8')) == {"error": "Error: name and link must have a value"}
+
 
 """
 When I make a PUT request to /projects with a valid project

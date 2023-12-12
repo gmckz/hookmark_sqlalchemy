@@ -4,7 +4,7 @@ from flask_cors import CORS
 from lib.database_connection import get_flask_database_connection
 from lib.project_repository import ProjectRepository
 from lib.Project import Project
-from lib.exceptions import ProjectNotFoundException, DatabaseQueryException
+from lib.exceptions import ProjectNotFoundException, DatabaseQueryException, InvalidProjectException
 
 app = Flask(__name__)
 CORS(app)
@@ -40,13 +40,21 @@ def get_all_projects():
 
 @app.route("/projects", methods=["POST"])
 def create_project():
-    connection = get_flask_database_connection(app)
-    repository = ProjectRepository(connection)
-    json_body = request.get_json()
-    data = json_body['data']
-    project = Project(None, data['name'], data['link'], data['notes'])
-    repository.create(project)
-    return repository.all()[-1]
+    try:
+        connection = get_flask_database_connection(app)
+        repository = ProjectRepository(connection)
+        json_body = request.get_json()
+        data = json_body['data']
+        project = Project(None, data['name'], data['link'], data['notes'])
+        print(project)
+        if repository.create(project) == "Project created successfully.":
+            return repository.all()[-1], 201
+        else:
+            raise InvalidProjectException()
+    except InvalidProjectException as invalid_project_exception:
+        return jsonify({"error": str(invalid_project_exception)}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     
 @app.route("/projects", methods=["PUT"])
 def update_project():

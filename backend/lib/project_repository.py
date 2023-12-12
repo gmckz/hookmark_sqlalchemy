@@ -34,6 +34,7 @@ class ProjectRepository:
                         'INSERT INTO projects (name, link, notes) VALUES (%s, %s, %s)',\
                         [project.name, project.link, project.notes]
                     )
+                return "Project created successfully."
             else:
                 error_message = project.generate_error_message()
                 raise InvalidProjectException(error_message)
