@@ -27,4 +27,5 @@ class Project(db.Model):
 @app.route("/projects", methods=['GET'])
 def get_all_projects():
     projects = Project.query.all()
-    return projects, 200
+    serialised_projects = {"projects":[{"id":project.id, "name":project.name, "link":project.link, "notes":project.notes} for project in projects]}
+    return serialised_projects, 200
