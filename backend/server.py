@@ -35,3 +35,14 @@ def get_a_project(project_id):
     project = Project.query.get_or_404(project_id)
     serialised_project = {"id":project.id, "name":project.name, "link":project.link, "notes":project.notes}
     return jsonify(serialised_project), 200
+
+@app.route("/projects", methods=['POST'])
+def create_project():
+    request_body = request.get_json()
+    data = request_body['data']
+    project = Project(name=data['name'], link=data['link'], notes=data['notes'])
+    db.session.add(project)
+    db.session.commit()
+    response = Project.query.all()
+    serialised_response = [{"id":project.id, "name":project.name, "link":project.link, "notes":project.notes} for project in response]
+    return serialised_response[-1], 201
