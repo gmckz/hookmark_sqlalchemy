@@ -1,91 +1,72 @@
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from lib.database_connection import get_flask_database_connection
-from lib.project_repository import ProjectRepository
-from lib.Project import Project
-from lib.exceptions import ProjectNotFoundException, DatabaseQueryException, InvalidProjectException
+from flask_sqlalchemy import SQLAlchemy
+
+from sqlalchemy.sql import func
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-CORS(app)
-# Landing page API route
-@app.route("/")
-def page_test():
-    return "Hello welcome to my page"
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'hookmark.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-@app.route("/projects/<int:project_id>", methods=['GET'])
-def get_a_project(project_id):
-    try:
-        connection = get_flask_database_connection(app)
-        repository = ProjectRepository(connection)
-        project = repository.find(project_id)
-        if project:
-            return vars(repository.find(project_id)), 200
-        else:
-            raise ProjectNotFoundException(f"Project with id: {project_id} does not exist.")
-    except ProjectNotFoundException as e:
-        return jsonify({"error": str(e)}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+db = SQLAlchemy(app)
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    link = db.Column(db.String(100), nullable=True)
+    notes = db.Column(db.Text)
+
+    def __repr__(self):
+        return f"<Project {self.id} {self.name} {self.link}>"
+
 
 @app.route("/projects", methods=['GET'])
 def get_all_projects():
-    try:
-        connection = get_flask_database_connection(app)
-        repository = ProjectRepository(connection)
-        projects = {"projects": repository.all()}
-        return projects, 200
-    except DatabaseQueryException as e:
-        return jsonify({"error": str(e)}), 500
+    projects = Project.query.all()
+    serialised_projects = {"projects":[{"id":project.id, "name":project.name, "link":project.link, "notes":project.notes} for project in projects]}
+    return serialised_projects, 200
 
-@app.route("/projects", methods=["POST"])
+@app.route("/projects/<int:project_id>/", methods=['GET'])
+def get_a_project(project_id):
+    project = Project.query.get_or_404(project_id)
+    serialised_project = {"id":project.id, "name":project.name, "link":project.link, "notes":project.notes}
+    return jsonify(serialised_project), 200
+
+@app.route("/projects", methods=['POST'])
 def create_project():
-    try:
-        connection = get_flask_database_connection(app)
-        repository = ProjectRepository(connection)
-        json_body = request.get_json()
-        data = json_body['data']
-        project = Project(None, data['name'], data['link'], data['notes'])
-        print(project)
-        if repository.create(project) == "Project created successfully.":
-            return repository.all()[-1], 201
-        else:
-            raise InvalidProjectException()
-    except InvalidProjectException as invalid_project_exception:
-        return jsonify({"error": str(invalid_project_exception)}), 400
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    
+    request_body = request.get_json()
+    data = request_body['data']
+    project = Project(name=data['name'], link=data['link'], notes=data['notes'])
+    db.session.add(project)
+    db.session.commit()
+    response = Project.query.all()
+    serialised_response = [{"id":project.id, "name":project.name, "link":project.link, "notes":project.notes} for project in response]
+    return serialised_response[-1], 201
+
 @app.route("/projects", methods=["PUT"])
 def update_project():
-    try:
-        connection = get_flask_database_connection(app)
-        repository = ProjectRepository(connection)
-        json_body = request.get_json()
-        data = json_body['data']
-        project = Project(data['id'], data['name'], data['link'], data['notes'])
-        if repository.update(project) == "Project updated successfully.":
-            return vars(repository.find(project.id)), 200
-        else:
-            raise InvalidProjectException()
-    except InvalidProjectException as invalid_project_exception:
-        return jsonify({"error": str(invalid_project_exception)}), 400
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    request_body = request.get_json()
+    data = request_body['data']
+    project_id = data['id']
+    project = Project.query.get_or_404(project_id)
+
+    if project.name != data['name']:
+        project.name = data['name']
+    if project.link != data['link']:
+        project.link = data['link']
+    if project.notes != data['notes']:
+        project.notes = data['notes']
+
+    db.session.commit()
+    return get_a_project(project_id)
 
 @app.route("/projects/<int:project_id>", methods=["DELETE"])
 def delete_project(project_id):
-    try:
-        connection = get_flask_database_connection(app)
-        repository = ProjectRepository(connection)
-        if repository.delete(project_id) == f"Project with id {project_id} deleted":
-            return jsonify({"message": "Project deleted successfully"}), 200
-        else:
-            raise ProjectNotFoundException()
-    except ProjectNotFoundException as project_not_found_exception:
-        return jsonify({"error": str(project_not_found_exception)}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    project = Project.query.get_or_404(project_id)
+    db.session.delete(project)
+    db.session.commit()
+    return jsonify({"message": "Project deleted successfully"}), 200

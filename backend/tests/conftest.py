@@ -1,6 +1,6 @@
 import pytest, sys, random, py, pytest, os
 from lib.database_connection import DatabaseConnection
-from server import app
+from backend.server_og import app
 
 @pytest.fixture
 def db_connection():
