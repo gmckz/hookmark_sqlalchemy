@@ -29,3 +29,9 @@ def get_all_projects():
     projects = Project.query.all()
     serialised_projects = {"projects":[{"id":project.id, "name":project.name, "link":project.link, "notes":project.notes} for project in projects]}
     return serialised_projects, 200
+
+@app.route("/projects/<int:project_id>/", methods=['GET'])
+def get_a_project(project_id):
+    project = Project.query.get_or_404(project_id)
+    serialised_project = {"id":project.id, "name":project.name, "link":project.link, "notes":project.notes}
+    return jsonify(serialised_project), 200
