@@ -46,3 +46,20 @@ def create_project():
     response = Project.query.all()
     serialised_response = [{"id":project.id, "name":project.name, "link":project.link, "notes":project.notes} for project in response]
     return serialised_response[-1], 201
+
+@app.route("/projects", methods=["PUT"])
+def update_project():
+    request_body = request.get_json()
+    data = request_body['data']
+    project_id = data['id']
+    project = Project.query.get_or_404(project_id)
+
+    if project.name != data['name']:
+        project.name = data['name']
+    if project.link != data['link']:
+        project.link = data['link']
+    if project.notes != data['notes']:
+        project.notes = data['notes']
+
+    db.session.commit()
+    return get_a_project(project_id)
