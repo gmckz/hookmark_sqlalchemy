@@ -21,3 +21,9 @@ class Project(db.Model):
 
     def __repr__(self):
         return f"<Project {self.id} {self.name} {self.link}>"
+
+
+@app.route("/projects", methods=['GET'])
+def get_all_projects():
+    projects = Project.query.all()
+    return projects, 200
