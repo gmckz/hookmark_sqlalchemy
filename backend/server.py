@@ -8,7 +8,7 @@ from sqlalchemy.sql import func
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'hookmark.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -63,3 +63,10 @@ def update_project():
 
     db.session.commit()
     return get_a_project(project_id)
+
+@app.route("/projects/<int:project_id>", methods=["DELETE"])
+def delete_project(project_id):
+    project = Project.query.get_or_404(project_id)
+    db.session.delete(project)
+    db.session.commit()
+    return jsonify({"message": "Project deleted successfully"}), 200
