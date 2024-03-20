@@ -20,4 +20,4 @@ class Project(db.Model):
     notes = db.Column(db.Text)
 
     def __repr__(self):
-        return f"<Project {self.id} {self.name} {self.link}"
+        return f"<Project {self.id} {self.name} {self.link}>"
