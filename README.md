@@ -1,29 +1,46 @@
 # Hookmark
 
-Hookmark is a web app for keeping track of your knitting and crochet projects and patterns.
-The backend is a RESTful API built using the Flask framework and SQLAlchemy database.
-The responsive frontend has been built with React.
+Hookmark is a web application designed for managing knitting and crochet projects and patterns. The backend utilizes a RESTful API built with Flask and SQLAlchemy for database management, while the frontend is developed using React, ensuring responsiveness across various devices.
 
-https://github.com/gmckz/hookmark_sqlalchemy/assets/67702875/a769543e-f8e8-44b9-8067-b99412ed0c33
+![Preview](https://github.com/gmckz/hookmark_sqlalchemy/assets/67702875/a769543e-f8e8-44b9-8067-b99412ed0c33)
 
+## How to Run
 
-# How to run
+### Backend:
 
-## to run backend:
+1. **Set Up Virtual Environment:**
 
-create virtual environment
-`cd backend`
-`python3 -m venv .venv`
+    ```bash
+    cd backend
+    python3 -m venv .venv
+    ```
 
-activate virtual environment
-`. ./venv/bin/activate`
-install dependencies:
-`pip install -r requirements.txt`
+2. **Activate Virtual Environment:**
 
-run server
-`flask --app server run`
+    ```bash
+    . ./.venv/bin/activate
+    ```
 
-## to run frontend:
+3. **Install Dependencies:**
 
-`npm install`
-`npm start`
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Run Server:**
+    ```bash
+    flask --app server run
+    ```
+
+### Frontend:
+
+1. **Install Dependencies:**
+
+    ```bash
+    npm install
+    ```
+
+2. **Start Development Server:**
+    ```bash
+    npm start
+    ```
