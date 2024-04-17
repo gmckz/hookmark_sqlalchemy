@@ -4,7 +4,7 @@ Hookmark is a web app for keeping track of your knitting and crochet projects an
 The backend is a RESTful API built using the Flask framework and SQLAlchemy database.
 The responsive frontend has been built with React.
 
-![hookmark demonstration gif](hookmark\ demo.gif)
+![hookmark\ demo.gif](https://github.com/gmckz/hookmark_sqlalchemy/blob/main/hookmark%20demo.gif)
 
 
 # How to run
